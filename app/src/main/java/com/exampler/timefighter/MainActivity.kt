@@ -36,6 +36,11 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun  incrementScore() {
+
+        if (!gameStarted) {
+            startGame()
+        }
+
         score++
 
         val newScore = getString(R.string.your_score, score)
@@ -71,7 +76,8 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun startGame() {
-
+        countDownTimer.start()
+        gameStarted = true
     }
 
     private fun endGame() {
