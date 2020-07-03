@@ -4,6 +4,7 @@ import android.content.IntentSender
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.os.CountDownTimer
+import android.os.PersistableBundle
 import android.util.Log
 import android.widget.Button
 import android.widget.TextView
@@ -39,6 +40,22 @@ class MainActivity : AppCompatActivity() {
         tapMeButton.setOnClickListener { incrementScore() }
 
         resetGame()
+    }
+
+    override fun onSaveInstanceState(outState: Bundle) {
+        super.onSaveInstanceState(outState)
+
+        outState.putInt(SCORE_KEY, score)
+        outState.putInt(TIME_LEFT_KEY, timeLeft)
+        countDownTimer.cancel()
+
+        Log.d(TAG, "onSaveInstanceState: Saving Score: $score & Time Left: $timeLeft")
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+
+        Log.d(TAG, "onDestroy called.")
     }
 
     private fun  incrementScore() {
@@ -91,5 +108,12 @@ class MainActivity : AppCompatActivity() {
         Toast.LENGTH_LONG).show()
         resetGame()
 
+    }
+
+    companion object {
+
+        private const val SCORE_KEY = "SCORE_KEY"
+
+        private const val TIME_LEFT_KEY = "TIME_LEFT_KEY"
     }
 }
